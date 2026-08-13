@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { TodoList } from './components/TodoList';
 import type { Todo } from './types';
 import './index.css';
@@ -10,12 +10,7 @@ function App() {
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch todos on load
-  useEffect(() => {
-    fetchTodos();
-  }, []);
-
-  const fetchTodos = async () => {
+  const fetchTodos = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}/api/todos`);
       if (!response.ok) {
@@ -30,7 +25,13 @@ function App() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
+
+  // Fetch todos on load
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchTodos();
+  }, [fetchTodos]);
 
   const handleAddTodo = async (e: React.FormEvent) => {
     e.preventDefault();
