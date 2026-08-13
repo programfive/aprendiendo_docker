@@ -3,6 +3,8 @@ name: Test Docker Builds
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -26,5 +28,9 @@ jobs:
       - name: "Construir mi aplicacion (Cliente)"
         working-directory: ./client
         run: npm run build
+      - name: "Ejecutar pruebas del Cliente"
+        working-directory: ./client
+        run: npm run test
+
 
         
