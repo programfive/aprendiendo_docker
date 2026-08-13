@@ -11,9 +11,17 @@ jobs:
     steps:
       - name: "Descargar mi código"
         uses: actions/checkout@v4
-      - name: "holaMundo"
-        run: echo "hola mundo"
-      - name: "dime la fecha"
-        run: date
-      - name: "muestre el contenido de la carpeta"
-        run: ls -la
+        
+      - name: "Descargar node js en la maquina de github"
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: "Instalar dependencias del Cliente"
+        working-directory: ./client
+        run: npm install
+        
+      - name: "Construir mi aplicacion (Cliente)"
+        working-directory: ./client
+        run: npm run build
+
+        
