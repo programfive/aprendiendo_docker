@@ -19,6 +19,9 @@ jobs:
       - name: "Instalar dependencias del Cliente"
         working-directory: ./client
         run: npm install
+      - name: "Lint del Cliente"
+        working-directory: ./client
+        run: npm run lint
         
       - name: "Construir mi aplicacion (Cliente)"
         working-directory: ./client
