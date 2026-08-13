@@ -1,0 +1,39 @@
+services:
+  db:
+    image: mysql:8.0
+    env_file:
+      - ./server/.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./server/database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  server:
+    build:
+      context: ./server
+      dockerfile: dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    env_file:
+      - ./server/.env 
+    depends_on:
+      - db
+
+  client:
+    build: ./client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    env_file:
+      - ./client/.env 
+    depends_on:
+      - server
+
+volumes:
+  db_data:
