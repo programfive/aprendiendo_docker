@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: "Descargar mi código"
+        uses: actions/checkout@v4
       - name: "holaMundo"
         run: echo "hola mundo"
       - name: "dime la fecha"
