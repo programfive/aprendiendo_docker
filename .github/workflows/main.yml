@@ -17,24 +17,36 @@ jobs:
     steps:
       - name: "Descargar mi código"
         uses: actions/checkout@v4
-        
+
       - name: "Descargar node js en la maquina de github"
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
       - name: "Instalar dependencias del Cliente"
         working-directory: ./client
         run: npm install
+
       - name: "Lint del Cliente"
         working-directory: ./client
         run: npm run lint
-        
+
       - name: "Construir mi aplicacion (Cliente)"
         working-directory: ./client
         run: npm run build
+
       - name: "Ejecutar pruebas del Cliente"
         working-directory: ./client
         run: npm run test
 
+      - name: "Login en github registry"
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.TOKEN }}
 
-        
+      - name: "Construir imagen del Cliente"
+        run: |
+          docker build -t ghcr.io/${{ github.repository }}-client:latest ./client
+          docker push ghcr.io/${{ github.repository }}-client:latest
