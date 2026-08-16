@@ -10,8 +10,8 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: ["22", "24", "26"]
+        os: [ubuntu-latest]
+        node-version: ["22"]
     runs-on: ubuntu-latest
 
     steps:
@@ -45,7 +45,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: "Construir imagen"
+      - name: "Construir imagen del Cliente"
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-client:latest ./client
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-client:latest
+
+      - name: "Construir imagen del Servidor"
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-server:latest ./server
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-server:latest
