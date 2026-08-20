@@ -54,3 +54,16 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-server:latest ./server
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-server:latest
+
+      - name: "Desplegar en EC2 por SSH"
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Actualizar Cliente
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-client:latest
+            docker stop mi-cliente || true
+            docker rm mi-cliente || true
+            docker run -d -p 80:3000 --name mi-cliente ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-client:latest

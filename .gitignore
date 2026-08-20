@@ -18,3 +18,4 @@ build/
 # Sistema Operativo
 .DS_Store
 Thumbs.db
+*.pem
