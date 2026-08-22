@@ -92,7 +92,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>Aprendiendo Docker con aws ec2</h1>
+      <h1>Aprendiendo Docker con aws ec2 parte 2</h1>
       
       <form onSubmit={handleAddTodo} className="todo-form">
         <input
