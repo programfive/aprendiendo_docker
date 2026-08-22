@@ -9,7 +9,8 @@ export default defineConfig(({ mode }) => {
     server: {
       host: true,
       port: Number(env.PORT) || 3000,
-      strictPort: true
+      strictPort: true,
+      allowedHosts: ['verolyn.site', 'www.verolyn.site']
     }
   }
 })
