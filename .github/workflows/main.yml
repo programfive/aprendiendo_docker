@@ -78,4 +78,6 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-client:latest
             docker stop mi-cliente || true
             docker rm mi-cliente || true
-            docker run -d -p 80:3000 --name mi-cliente ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-client:latest
+            docker run -d -p 80:3000 --name mi-cliente \
+              -e VITE_API_URL=http://verolyn.site:3001 \
+              ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-client:latest
