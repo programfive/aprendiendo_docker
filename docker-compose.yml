@@ -22,7 +22,6 @@ services:
       - ./server/.env 
     depends_on:
       - db
-
   client:
     build: ./client
     ports:

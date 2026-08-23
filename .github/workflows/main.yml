@@ -62,6 +62,18 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            # Actualizar Servidor
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-server:latest
+            docker stop mi-servidor || true
+            docker rm mi-servidor || true
+            docker run -d -p 3001:3001 --name mi-servidor \
+              -e PORT=3001 \
+              -e DB_HOST=${{ secrets.DB_HOST }} \
+              -e DB_USER=${{ secrets.DB_USER }} \
+              -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              -e DB_NAME=${{ secrets.DB_NAME }} \
+              ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-server:latest
+              
             # Actualizar Cliente
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/aprendiendo_docker-client:latest
             docker stop mi-cliente || true
